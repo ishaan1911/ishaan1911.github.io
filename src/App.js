@@ -112,6 +112,40 @@ export default function Portfolio() {
 
   const projects = [
     {
+      title: "Ask Your Mail",
+      description: "An innovative AI-powered email search application that revolutionizes inbox interaction through natural language processing. Leverages OpenAI's GPT-4 and advanced NLP techniques including semantic search with vector embeddings to understand user intent and retrieve contextually relevant emails. Built with Python and Flask backend, featuring intelligent query understanding that goes beyond simple keyword matching.",
+      detailedFeatures: [
+        "Natural language query processing using OpenAI GPT-4 for understanding user intent and context",
+        "Semantic search implementation using vector embeddings (text-embedding-ada-002) with cosine similarity matching",
+        "Gmail API integration for secure email access with OAuth 2.0 authentication flow",
+        "Context-aware responses with relevant email excerpts, sender info, and thread relationships",
+        "Privacy-focused architecture with local email processing and encrypted credential storage"
+      ],
+      tech: ["Python", "OpenAI GPT-4", "Vector Embeddings", "Flask", "Gmail API", "OAuth 2.0", "NumPy"],
+      github: null,
+      demo: "https://sites.google.com/view/askyourmail",
+      icon: "📧",
+      metrics: "AI-powered search • 95% query accuracy • Privacy-first design"
+    },
+    {
+      title: "DineEasy: Restaurant Management System",
+      description: "A comprehensive relational database management system (RDBMS) designed to optimize restaurant operations by addressing inefficiencies in order processing, inventory tracking, and staff scheduling. Built as a team project at WPI, DineEasy integrates order management, real-time reservations, inventory tracking with automated alerts, and employee scheduling into a centralized PostgreSQL database with a Django backend and React frontend.",
+      detailedFeatures: [
+        "Real-time order management system with kitchen dashboard for tracking order preparation status",
+        "Intelligent inventory tracking with automated low-stock alerts (sub-10 units) to reduce food waste",
+        "Table reservation system preventing overbooking and optimizing restaurant capacity management",
+        "Employee shift scheduling and role-based access control for managers, waitstaff, and kitchen staff",
+        "Admin dashboard with business analytics including popular menu items and employee performance metrics",
+        "Delivery management system with driver assignment and order status tracking"
+      ],
+      tech: ["Django", "PostgreSQL", "React", "Docker", "psycopg3", "RESTful API", "Python"],
+      github: null,
+      demo: null,
+      icon: "🍽️",
+      team: "Team project with Jackson Balcazar, Caleb Duah, and Vedant More | WPI CS 542 Database Management Systems",
+      metrics: "20+ normalized tables • PostgreSQL RDBMS • Docker containerized"
+    },
+    {
       title: "Recruit.me",
       description: "A production-grade serverless hiring platform leveraging AWS cloud infrastructure to streamline the recruitment process. Architected with AWS Lambda for compute, API Gateway for RESTful endpoints, and DynamoDB for scalable NoSQL data storage. Features intelligent candidate-job matching algorithms, automated interview scheduling with calendar integration, and a responsive React frontend optimized for both recruiters and candidates.",
       detailedFeatures: [
@@ -126,22 +160,6 @@ export default function Portfolio() {
       demo: null,
       icon: "💼",
       metrics: "Serverless architecture • Sub-50ms query latency • 99.9% uptime"
-    },
-    {
-      title: "Ask Your Mail",
-      description: "An innovative AI-powered email search application that revolutionizes inbox interaction through natural language processing. Leverages OpenAI's GPT-4 and advanced NLP techniques including semantic search with vector embeddings to understand user intent and retrieve contextually relevant emails. Built with Python and Flask backend, featuring intelligent query understanding that goes beyond simple keyword matching.",
-      detailedFeatures: [
-        "Natural language query processing using OpenAI GPT-4 for understanding user intent and context",
-        "Semantic search implementation using vector embeddings (text-embedding-ada-002) with cosine similarity matching",
-        "Gmail API integration for secure email access with OAuth 2.0 authentication flow",
-        "Context-aware responses with relevant email excerpts, sender info, and thread relationships",
-        "Privacy-focused architecture with local email processing and encrypted credential storage"
-      ],
-      tech: ["Python", "OpenAI GPT-4", "Vector Embeddings", "Flask", "Gmail API", "OAuth 2.0", "NumPy"],
-      github: "https://github.com/Julian-Hans/askyourmail",
-      demo: null,
-      icon: "📧",
-      metrics: "AI-powered search • 95% query accuracy • Privacy-first design"
     },
     {
       title: "FusionBot",
@@ -228,10 +246,10 @@ export default function Portfolio() {
   const skills = {
     "Languages": ["Python", "Java", "JavaScript", "TypeScript", "Kotlin", "C++"],
     "Frontend": ["React", "Next.js", "Jetpack Compose", "Tailwind CSS", "HTML/CSS", "Vite"],
-    "Backend": ["Node.js", "Express", "Flask", "FastAPI", "Spring Boot"],
+    "Backend": ["Node.js", "Express", "Flask", "FastAPI", "Django", "Spring Boot"],
     "Cloud & DevOps": ["AWS (Lambda, S3, DynamoDB, API Gateway)", "Docker", "Git", "CI/CD", "GCP"],
     "AI/ML": ["TensorFlow", "PyTorch", "NLP", "LangChain", "OpenAI API", "Vector Embeddings", "DALL-E", "Whisper"],
-    "Databases": ["MongoDB", "PostgreSQL", "MySQL", "DynamoDB"],
+    "Databases": ["MongoDB", "PostgreSQL", "MySQL", "DynamoDB", "psycopg3"],
     "Tools & APIs": ["REST APIs", "Streamlit", "Gmail API", "Eleven Labs API", "Bootstrap"]
   };
 
