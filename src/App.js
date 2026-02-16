@@ -112,6 +112,23 @@ export default function Portfolio() {
 
   const projects = [
     {
+      title: "CodeCraft: AI-Powered Skills Verification Platform",
+      description: "A sophisticated full-stack engineering skills verification platform that leverages AI to automatically grade coding challenges. Built with a modern microservices architecture featuring React frontend on Vercel and FastAPI backend on Railway. CodeCraft provides three distinct challenge types - Code Comprehension, Debugging, and AI Code Review - each with intelligent grading powered by Groq's LLM API. Features real-time feedback, submission tracking, and a comprehensive challenge browsing system.",
+      detailedFeatures: [
+        "AI-powered automatic grading system using Groq LLM API for comprehension and code review challenges",
+        "Three challenge categories: Code Comprehension (explain patterns), Debugging (find and fix bugs), and AI Code Review (security audits)",
+        "Real-time submission system with instant feedback and detailed grading breakdowns (accuracy, completeness, clarity)",
+        "Challenge navigation and browsing system with filtering by difficulty and category",
+        "User authentication and session management with secure JWT-based authorization",
+        "Microservices architecture with separate frontend (Vercel) and backend (Railway) deployments for scalability"
+      ],
+      tech: ["React", "FastAPI", "PostgreSQL", "Supabase", "Groq AI", "Redis", "Upstash", "Vercel", "Railway", "Docker"],
+      github: "https://github.com/ishaan1911/codecraft",
+      demo: "https://codecraft-frontend-psi.vercel.app/",
+      icon: "⚡",
+      metrics: "AI-powered grading • 3 challenge types • Full-stack microservices"
+    },
+    {
       title: "Ask Your Mail",
       description: "An innovative AI-powered email search application that revolutionizes inbox interaction through natural language processing. Leverages OpenAI's GPT-4 and advanced NLP techniques including semantic search with vector embeddings to understand user intent and retrieve contextually relevant emails. Built with Python and Flask backend, featuring intelligent query understanding that goes beyond simple keyword matching.",
       detailedFeatures: [
@@ -247,10 +264,10 @@ export default function Portfolio() {
     "Languages": ["Python", "Java", "JavaScript", "TypeScript", "Kotlin", "C++"],
     "Frontend": ["React", "Next.js", "Jetpack Compose", "Tailwind CSS", "HTML/CSS", "Vite"],
     "Backend": ["Node.js", "Express", "Flask", "FastAPI", "Django", "Spring Boot"],
-    "Cloud & DevOps": ["AWS (Lambda, S3, DynamoDB, API Gateway)", "Docker", "Git", "CI/CD", "GCP"],
-    "AI/ML": ["TensorFlow", "PyTorch", "NLP", "LangChain", "OpenAI API", "Vector Embeddings", "DALL-E", "Whisper"],
-    "Databases": ["MongoDB", "PostgreSQL", "MySQL", "DynamoDB", "psycopg3"],
-    "Tools & APIs": ["REST APIs", "Streamlit", "Gmail API", "Eleven Labs API", "Bootstrap"]
+    "Cloud & DevOps": ["AWS (Lambda, S3, DynamoDB, API Gateway)", "Docker", "Git", "CI/CD", "GCP", "Vercel", "Railway"],
+    "AI/ML": ["TensorFlow", "PyTorch", "NLP", "LangChain", "OpenAI API", "Vector Embeddings", "DALL-E", "Whisper", "Groq AI"],
+    "Databases": ["MongoDB", "PostgreSQL", "MySQL", "DynamoDB", "psycopg3", "Supabase", "Redis"],
+    "Tools & APIs": ["REST APIs", "Streamlit", "Gmail API", "Eleven Labs API", "Bootstrap", "Upstash"]
   };
 
   return (
