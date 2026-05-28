@@ -71,6 +71,14 @@ export default function Portfolio() {
 
   const projects = [
     {
+      title: "AutoApply",
+      subtitle: "AI-Powered Job Application Automation Platform",
+      description: "Multi-user AI platform that automates the end-to-end job application pipeline for students and professionals. Aggregates listings from LinkedIn, Indeed, Greenhouse, Lever, and Workday via JobSpy and Playwright, semantically matches them against user profiles using pgvector at a 70% similarity threshold, and tailors resumes using GPT-4o. Features a human-in-the-loop approval system where users review every AI-suggested resume edit before submission, a Kanban-style application tracker, and automated three-paragraph cover letter generation. Global job search with visa sponsorship tagging. Deployed on AWS EC2 with FastAPI backend, PostgreSQL + pgvector, Celery + Redis task queue, and Next.js 14 frontend on Vercel.",
+      tech: ["Next.js 14", "FastAPI", "GPT-4o", "PostgreSQL", "pgvector", "Celery", "Redis", "AWS EC2", "JobSpy", "Playwright"],
+      github: null,
+      demo: "https://autoapply-psi.vercel.app"
+    },
+    {
       title: "AXIOM",
       subtitle: "Agentic RAG Codebase Explanation System",
       description: "Built a self-explaining backend using agentic Retrieval-Augmented Generation (RAG) that indexes any public GitHub repository and streams answers with every claim cited to exact file and line numbers. Deployed on HuggingFace Spaces with persistent ChromaDB vector store. Engineered a 4-pass multi-query retrieval pipeline with HNSW vector search – expands queries into semantically distinct sub-queries, re-ranks 14 retrieved chunks by AST node type before LLM context injection. Validated against django/django (176 files, 1,400+ chunks) with AST-based Python chunking for functions, classes, and async route handlers.",
@@ -606,7 +614,7 @@ export default function Portfolio() {
           <h1>Ishaan<br/>Parekh</h1>
           <p className="subtitle">Software Engineer / AI Systems</p>
           <p className="bio">
-            Graduate student at Worcester Polytechnic Institute pursuing M.S. in Computer Science. 
+            M.S. in Computer Science graduate from Worcester Polytechnic Institute. 
             Building scalable cloud applications and AI-powered systems. Focused on full-stack development, 
             serverless architectures, and machine learning applications.
           </p>
@@ -735,7 +743,7 @@ export default function Portfolio() {
           <div className="education">
             <h3>Worcester Polytechnic Institute</h3>
             <p className="degree">Master of Science in Computer Science</p>
-            <p className="year">Expected May 2026</p>
+            <p className="year">Graduated May 2026</p>
           </div>
           <div className="education">
             <h3>Indus University</h3>
