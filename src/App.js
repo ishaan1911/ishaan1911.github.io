@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Mail, Github, Linkedin, ExternalLink, Code, Sparkles, Briefcase, Calendar } from 'lucide-react';
+import { Moon, Sun, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
 
 export default function Portfolio() {
   const [theme, setTheme] = useState('light');
