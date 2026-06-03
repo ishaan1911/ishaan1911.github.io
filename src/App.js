@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Moon, Sun, Mail, Github, Linkedin, ExternalLink } from 'lucide-react';
+import { Moon, Sun, Mail, Github, Linkedin, ExternalLink, ChevronDown, ChevronUp } from 'lucide-react';
 
 export default function Portfolio() {
   const [theme, setTheme] = useState('light');
+  const [expandedProject, setExpandedProject] = useState(null);
+
+  const toggleProject = (index) => {
+    setExpandedProject(expandedProject === index ? null : index);
+  };
 
   useEffect(() => {
     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
@@ -76,8 +81,157 @@ export default function Portfolio() {
       description: "Multi-user AI platform that automates the end-to-end job application pipeline for students and professionals. Aggregates listings from LinkedIn, Indeed, Greenhouse, Lever, and Workday via JobSpy and Playwright, semantically matches them against user profiles using pgvector at a 70% similarity threshold, and tailors resumes using GPT-4o. Features a human-in-the-loop approval system where users review every AI-suggested resume edit before submission, a Kanban-style application tracker, and automated three-paragraph cover letter generation. Global job search with visa sponsorship tagging. Deployed on AWS EC2 with FastAPI backend, PostgreSQL + pgvector, Celery + Redis task queue, and Next.js 14 frontend on Vercel.",
       tech: ["Next.js 14", "FastAPI", "GPT-4o", "PostgreSQL", "pgvector", "Celery", "Redis", "AWS EC2", "JobSpy", "Playwright"],
       github: null,
-      demo: "https://autoapply-psi.vercel.app"
+      demo: "https://autoapply-psi.vercel.app",
+      loomUrl: null,
+      architecture: "Next.js 14 frontend (Vercel) → FastAPI backend (AWS EC2) → PostgreSQL + pgvector (RDS) with Celery + Redis (ElastiCache) for async job processing. JobSpy and Playwright handle multi-platform scraping. GPT-4o handles resume tailoring and cover letter generation.",
+      decisions: [
+        "Chose pgvector over a dedicated vector DB (Pinecone/Weaviate) to keep the stack unified in PostgreSQL and avoid extra infrastructure cost",
+        "Set 70% semantic similarity threshold after testing — low enough to surface relevant roles, high enough to avoid noise",
+        "Human-in-the-loop approval before every submission — AI suggestions without blind automation, preserving user trust",
+        "Celery + Redis for async task queue so scraping and tailoring don't block the API response",
+        "Visa sponsorship tagging built into the search pipeline — critical for international students and OPT holders"
+      ],
+      challenges: [
+        "Job scraping reliability — LinkedIn and Indeed frequently change their DOM; solved with fallback strategies and Playwright for JavaScript-rendered pages",
+        "Resume tailoring quality — GPT-4o would sometimes hallucinate skills; solved with strict prompting and a diff-based review UI showing exactly what changed",
+        "Multi-user isolation — ensuring one user's Celery tasks never contaminate another's queue; solved with per-user task namespacing in Redis",
+        "Cold start latency on EC2 — Celery workers occasionally slow to pick up tasks; mitigated with worker pre-warming and concurrency tuning"
+      ]
     },
+    {
+      title: "AXIOM",
+      subtitle: "Agentic RAG Codebase Explanation System",
+      description: "Built a self-explaining backend using agentic Retrieval-Augmented Generation (RAG) that indexes any public GitHub repository and streams answers with every claim cited to exact file and line numbers. Deployed on HuggingFace Spaces with persistent ChromaDB vector store. Engineered a 4-pass multi-query retrieval pipeline with HNSW vector search – expands queries into semantically distinct sub-queries, re-ranks 14 retrieved chunks by AST node type before LLM context injection. Validated against django/django (176 files, 1,400+ chunks) with AST-based Python chunking for functions, classes, and async route handlers.",
+      tech: ["FastAPI", "RAG", "ChromaDB", "HNSW Search", "AST Parsing", "LangChain", "Groq API"],
+      github: null,
+      demo: "https://huggingface.co/spaces/ishaan1911/AXIOM",
+      loomUrl: null,
+      architecture: "FastAPI backend → GitHub repo cloner → AST parser (Python AST + regex for JS/TS/YAML/JSON/Markdown) → ChromaDB with HNSW indexing → 4-pass multi-query retrieval → Groq LLM (streaming) → cited response. Deployed on HuggingFace Spaces with persistent ChromaDB volume.",
+      decisions: [
+        "Chose ChromaDB with HNSW over FAISS for persistent storage and HuggingFace Spaces compatibility without a separate database service",
+        "4-pass multi-query expansion — single queries miss context; expanding into semantically distinct sub-queries dramatically improves recall",
+        "AST-based chunking over naive line splitting — preserves function and class boundaries so retrieved chunks are always semantically complete",
+        "Re-rank by AST node type before LLM injection — prioritizes function definitions over imports or comments for more relevant context",
+        "Groq over OpenAI for LLM — significantly faster inference (tokens/sec) which is critical for streaming responses"
+      ],
+      challenges: [
+        "Async functions were initially excluded from the AST indexer — fixed by explicitly handling async def nodes in the Python AST traversal",
+        "Multi-language support — Python AST doesn't cover JS/TS; solved with regex-based extraction for non-Python files",
+        "Citation accuracy — early versions cited wrong line numbers after chunking; fixed by storing absolute line offsets at index time",
+        "HuggingFace Spaces cold starts — ChromaDB persistence across restarts required careful volume mounting configuration"
+      ]
+    },
+    {
+      title: "CodeCraft",
+      subtitle: "AI-Powered Skills Verification Platform",
+      description: "Full-stack engineering skills verification platform with AI-powered automatic grading system using Groq LLM API. Features three challenge categories: Code Comprehension, Debugging, and AI Code Review with real-time feedback and detailed grading breakdowns. Built with microservices architecture featuring React frontend deployed on Vercel and FastAPI backend on Railway, with PostgreSQL database on Supabase for persistent storage. Implements secure JWT-based authentication, Redis caching for performance optimization, and RESTful API design patterns.",
+      tech: ["React", "FastAPI", "PostgreSQL", "Groq AI", "Redis", "JWT", "Microservices"],
+      github: "https://github.com/ishaan1911/codecraft",
+      demo: "https://codecraft-frontend-psi.vercel.app/",
+      loomUrl: null,
+      architecture: "React frontend (Vercel) → FastAPI backend (Railway) → PostgreSQL (Supabase) with Redis (Upstash) for caching. Groq LLM API handles challenge grading. JWT tokens manage authentication. Separate services communicate via RESTful APIs with CORS configured for cross-origin requests.",
+      decisions: [
+        "Chose Groq over OpenAI for grading — faster inference and free tier sufficient for evaluation use case",
+        "Three challenge types designed to test different cognitive levels: comprehension, debugging, and critical review",
+        "Microservices split (Vercel + Railway) over monolith — independent scaling and free tier optimization",
+        "Redis caching for grading results — identical submissions don't re-trigger LLM calls, reducing latency and cost",
+        "JWT over session-based auth — stateless authentication fits microservices architecture"
+      ],
+      challenges: [
+        "HTTPS/HTTP mixed content issue — React on Vercel (HTTPS) calling FastAPI on Railway (HTTP) was blocked by browsers; fixed by adding proxy header middleware and configuring Uvicorn with --proxy-headers",
+        "Grading consistency — LLM responses varied for similar answers; solved with structured output prompting and rubric injection",
+        "CORS configuration — cross-origin requests between Vercel and Railway required precise allow-origin headers in FastAPI middleware"
+      ]
+    },
+    {
+      title: "Recruit.me",
+      subtitle: "Serverless Hiring Platform",
+      description: "Built serverless recruitment platform with role-based access control using Next.js, AWS Lambda, API Gateway, and RDS (MySQL). Implemented secure JWT authentication with bcrypt password hashing and email verification workflows. Designed normalized relational schema with 8+ tables for efficient data modeling. Built 15+ RESTful API endpoints with input validation, CORS configuration, and pagination for scalability. Deployed optimized static frontend to AWS S3 with CloudFront CDN for global distribution and sub-50ms query latency.",
+      tech: ["Next.js", "AWS Lambda", "API Gateway", "RDS (MySQL)", "JWT", "bcrypt", "S3"],
+      github: "https://github.com/Labheshm21/Recruit.me",
+      demo: null,
+      loomUrl: null,
+      architecture: "Next.js static export (S3 + CloudFront) → API Gateway → AWS Lambda (Node.js) → RDS MySQL. JWT handles auth. S3 stores resumes and assets. CloudFront CDN for global distribution. Lambda functions are individually scoped per endpoint for fine-grained IAM permissions.",
+      decisions: [
+        "Serverless (Lambda) over EC2 — zero server management, pay-per-request pricing ideal for variable traffic patterns",
+        "RDS MySQL over DynamoDB — relational data model with complex joins between candidates, jobs, and applications suited SQL",
+        "Normalized schema (8+ tables, 3NF) — eliminates data redundancy and ensures referential integrity across hiring pipeline",
+        "Static Next.js export to S3 + CloudFront — fastest possible frontend delivery without a Node.js server",
+        "bcrypt for password hashing with salt rounds tuned for security vs. Lambda execution time"
+      ],
+      challenges: [
+        "Lambda cold starts — first invocation latency spikes; mitigated with provisioned concurrency for auth endpoints",
+        "RDS connection limits — Lambda's concurrency can exhaust MySQL connections; solved with RDS Proxy for connection pooling",
+        "CORS across API Gateway — required careful configuration of preflight OPTIONS responses for each route"
+      ]
+    },
+    {
+      title: "Ask Your Mail",
+      subtitle: "RAG-Based Email Search System",
+      description: "Built RAG-based email search application using LangChain and Hugging Face transformers for semantic embeddings pipeline, achieving 94% search accuracy validated through Precision, Recall, and F1-score metrics. Implements vector similarity search with cosine distance for contextually relevant email retrieval. Optimized query cost to $0.01 per search via efficient API usage patterns and intelligent caching strategies. Integrated Gmail API with OAuth 2.0 authentication for secure email access. Built interactive Gradio UI for real-time query visualization and result exploration.",
+      tech: ["Python", "RAG", "LangChain", "Hugging Face", "Vector Embeddings", "Gmail API", "Gradio"],
+      github: null,
+      demo: "https://sites.google.com/view/askyourmail",
+      loomUrl: null,
+      architecture: "Gradio UI → Flask backend → Gmail API (OAuth 2.0) for email ingestion → LangChain pipeline → Hugging Face sentence transformers for embeddings → FAISS vector store → cosine similarity retrieval → GPT-4 for response generation.",
+      decisions: [
+        "Hugging Face sentence transformers over OpenAI embeddings — local embedding generation eliminates per-token embedding cost",
+        "Cosine similarity over dot product — normalized vectors make similarity scores more interpretable and consistent",
+        "LangChain for orchestration — simplifies the retrieval-augmentation chain and makes the pipeline modular",
+        "Gradio for UI — rapid prototyping with built-in file upload and real-time streaming, ideal for demo purposes",
+        "OAuth 2.0 for Gmail — ensures emails never leave the user's session, privacy-first architecture"
+      ],
+      challenges: [
+        "Query cost optimization — early versions made one OpenAI call per chunk; reduced to $0.01/search by batching and caching embeddings",
+        "Email threading — Gmail API returns individual messages; reconstructing conversation threads required custom grouping logic",
+        "Accuracy validation — built evaluation set of 50 queries with ground truth labels to measure Precision, Recall, and F1-score"
+      ]
+    },
+    {
+      title: "DINE EASY",
+      subtitle: "Restaurant Management System",
+      description: "Comprehensive relational database management system (RDBMS) designed to optimize restaurant operations. Features real-time order management with kitchen dashboard, intelligent inventory tracking with automated low-stock alerts, and reservation system preventing overbooking. Built with Django backend and PostgreSQL database with 20+ normalized tables in BCNF. Implements role-based access control for managers, waitstaff, and kitchen staff. Dockerized for consistent deployment across environments. Team project demonstrating collaborative software development practices.",
+      tech: ["Django", "PostgreSQL", "React", "Docker", "RDBMS", "Normalized Schema"],
+      github: null,
+      demo: null,
+      loomUrl: null,
+      architecture: "React frontend → Django REST framework backend → PostgreSQL database (20+ tables in BCNF). Docker Compose orchestrates the full stack locally. Django ORM handles complex joins across orders, inventory, reservations, and staff tables. Role-based middleware enforces access control at the API layer.",
+      decisions: [
+        "Django over FastAPI — Django ORM's maturity and admin panel accelerated development for a data-heavy application",
+        "BCNF normalization — ensured no functional dependency violations across 20+ tables, eliminating all update anomalies",
+        "Docker Compose for local dev — team used mixed macOS/Windows machines; containerization ensured consistent environments",
+        "Role-based access at middleware layer — cleaner than per-view checks, enforces permissions consistently across all endpoints",
+        "PostgreSQL over MySQL — better support for complex queries and future pgvector/JSON extensions"
+      ],
+      challenges: [
+        "Cross-platform Docker setup — macOS and Windows team members hit different path separator and networking issues; resolved with platform-specific Docker Compose overrides",
+        "Complex SQL queries — top 5 dishes and employee performance required multi-table joins with aggregations; two of five planned queries hit performance bottlenecks",
+        "Table reservation conflict detection — preventing double-booking required atomic transactions with row-level locking"
+      ]
+    },
+    {
+      title: "FusionBot",
+      subtitle: "Multi-Modal AI Chatbot",
+      description: "Engineered conversational AI chatbot using NLP and intent classification to assist content creators with workflow automation and contextual recommendations. Integrates multiple AI APIs including OpenAI GPT-4 for natural language understanding, DALL-E 3 for image generation, Whisper for speech-to-text conversion across 50+ languages, and Eleven Labs for text-to-speech synthesis. Features document processing for PDFs and DOCX files, YouTube video summarization using caption extraction, and multi-modal data interaction. Built with React frontend and Node.js backend using LangChain for orchestration.",
+      tech: ["React", "Node.js", "NLP", "GPT-4", "DALL-E", "Whisper", "LangChain"],
+      github: null,
+      demo: null,
+      loomUrl: null,
+      architecture: "React + Tailwind frontend → Node.js + Express backend → LangChain orchestration layer → multiple AI APIs (OpenAI GPT-4, DALL-E 3, Whisper, Eleven Labs). Streamlit used for rapid prototyping of individual modules. Vite for frontend bundling. Each AI capability is a separate LangChain tool invoked by intent classification.",
+      decisions: [
+        "LangChain for orchestration — routing between 6 different AI APIs required a unified tool-calling interface",
+        "Intent classification before API routing — prevents unnecessary API calls by first determining which modality the user needs",
+        "Eleven Labs over Google TTS — significantly more natural voice synthesis, critical for content creator use case",
+        "YouTube caption extraction over audio transcription — faster and cheaper than running Whisper on full video audio",
+        "Modular tool architecture — each AI capability (image gen, STT, TTS, summarization) is independently testable and swappable"
+      ],
+      challenges: [
+        "API rate limits across 6 services simultaneously — implemented per-service request queuing and exponential backoff",
+        "Multi-modal context management — maintaining conversation state across text, image, and audio modalities required careful context windowing",
+        "Whisper accuracy for non-English — 50+ language support required language detection before transcription to select correct model variant"
+      ]
+    }
+  ];
     {
       title: "AXIOM",
       subtitle: "Agentic RAG Codebase Explanation System",
@@ -94,40 +248,6 @@ export default function Portfolio() {
       github: "https://github.com/ishaan1911/codecraft",
       demo: "https://codecraft-frontend-psi.vercel.app/"
     },
-    {
-      title: "Ask Your Mail",
-      subtitle: "RAG-Based Email Search System",
-      description: "Built RAG-based email search application using LangChain and Hugging Face transformers for semantic embeddings pipeline, achieving 94% search accuracy validated through Precision, Recall, and F1-score metrics. Implements vector similarity search with cosine distance for contextually relevant email retrieval. Optimized query cost to $0.01 per search via efficient API usage patterns and intelligent caching strategies. Integrated Gmail API with OAuth 2.0 authentication for secure email access. Built interactive Gradio UI for real-time query visualization and result exploration.",
-      tech: ["Python", "RAG", "LangChain", "Hugging Face", "Vector Embeddings", "Gmail API", "Gradio"],
-      github: null,
-      demo: "https://sites.google.com/view/askyourmail"
-    },
-    {
-      title: "DINE EASY",
-      subtitle: "Restaurant Management System",
-      description: "Comprehensive relational database management system (RDBMS) designed to optimize restaurant operations. Features real-time order management with kitchen dashboard, intelligent inventory tracking with automated low-stock alerts, and reservation system preventing overbooking. Built with Django backend and PostgreSQL database with 20+ normalized tables in BCNF. Implements role-based access control for managers, waitstaff, and kitchen staff. Dockerized for consistent deployment across environments. Team project demonstrating collaborative software development practices.",
-      tech: ["Django", "PostgreSQL", "React", "Docker", "RDBMS", "Normalized Schema"],
-      github: null,
-      demo: null
-    },
-    {
-      title: "Recruit.me",
-      subtitle: "Serverless Hiring Platform",
-      description: "Built serverless recruitment platform with role-based access control using Next.js, AWS Lambda, API Gateway, and RDS (MySQL). Implemented secure JWT authentication with bcrypt password hashing and email verification workflows. Designed normalized relational schema with 8+ tables for efficient data modeling. Built 15+ RESTful API endpoints with input validation, CORS configuration, and pagination for scalability. Deployed optimized static frontend to AWS S3 with CloudFront CDN for global distribution and sub-50ms query latency.",
-      tech: ["Next.js", "AWS Lambda", "API Gateway", "RDS (MySQL)", "JWT", "bcrypt", "S3"],
-      github: "https://github.com/Labheshm21/Recruit.me",
-      demo: null
-    },
-    {
-      title: "FusionBot",
-      subtitle: "Multi-Modal AI Chatbot",
-      description: "Engineered conversational AI chatbot using NLP and intent classification to assist content creators with workflow automation and contextual recommendations. Integrates multiple AI APIs including OpenAI GPT-4 for natural language understanding, DALL-E 3 for image generation, Whisper for speech-to-text conversion across 50+ languages, and Eleven Labs for text-to-speech synthesis. Features document processing for PDFs and DOCX files, YouTube video summarization using caption extraction, and multi-modal data interaction. Built with React frontend and Node.js backend using LangChain for orchestration.",
-      tech: ["React", "Node.js", "NLP", "GPT-4", "DALL-E", "Whisper", "LangChain"],
-      github: null,
-      demo: null
-    }
-  ];
-
   const coursework = [
     "AI",
     "Machine Learning",
@@ -438,6 +558,116 @@ export default function Portfolio() {
           letter-spacing: 0.05em;
         }
 
+        .expand-btn {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+          background: transparent;
+          border: 2px solid var(--border);
+          color: var(--text);
+          padding: 12px 24px;
+          font-size: 14px;
+          font-weight: 700;
+          text-transform: uppercase;
+          letter-spacing: 0.05em;
+          cursor: pointer;
+          margin-top: 25px;
+          transition: all 0.2s ease;
+          font-family: inherit;
+        }
+
+        .expand-btn:hover {
+          background: var(--text);
+          color: var(--bg);
+        }
+
+        .expand-btn svg {
+          width: 16px;
+          height: 16px;
+        }
+
+        .project:hover .expand-btn {
+          border-color: var(--bg);
+          color: var(--bg);
+        }
+
+        .project:hover .expand-btn:hover {
+          background: var(--bg);
+          color: var(--text);
+        }
+
+        .project-detail {
+          margin-top: 40px;
+          border-top: 2px solid var(--border);
+          padding-top: 40px;
+          display: grid;
+          gap: 40px;
+        }
+
+        .project:hover .project-detail {
+          border-top-color: var(--bg);
+        }
+
+        .detail-section h4 {
+          font-size: 13px;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.15em;
+          margin-bottom: 20px;
+          opacity: 0.6;
+        }
+
+        .detail-section p {
+          font-size: 16px;
+          line-height: 1.7;
+          margin-bottom: 0;
+          text-align: justify;
+        }
+
+        .detail-list {
+          list-style: none;
+          padding: 0;
+          display: grid;
+          gap: 14px;
+        }
+
+        .detail-list li {
+          font-size: 16px;
+          line-height: 1.6;
+          padding-left: 28px;
+          position: relative;
+          text-align: justify;
+        }
+
+        .detail-list li::before {
+          content: '—';
+          position: absolute;
+          left: 0;
+          font-weight: 700;
+        }
+
+        .video-slot {
+          border: 2px dashed var(--border);
+          padding: 50px 40px;
+          text-align: center;
+        }
+
+        .video-slot p {
+          font-size: 15px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.1em;
+          opacity: 0.5;
+          margin-bottom: 0;
+          text-align: center;
+        }
+
+        .video-embed {
+          width: 100%;
+          aspect-ratio: 16/9;
+          border: none;
+        }
+
         .coursework-grid {
           display: grid;
           gap: 50px;
@@ -687,6 +917,49 @@ export default function Portfolio() {
                   <span className="tech-tag" key={i}>{tech}</span>
                 ))}
               </div>
+              <button className="expand-btn" onClick={(e) => { e.stopPropagation(); toggleProject(index); }}>
+                {expandedProject === index ? <ChevronUp /> : <ChevronDown />}
+                <span>{expandedProject === index ? 'Close Details' : 'Deep Dive'}</span>
+              </button>
+              {expandedProject === index && (
+                <div className="project-detail">
+                  <div className="detail-section">
+                    <h4>Walkthrough</h4>
+                    {project.loomUrl ? (
+                      <iframe
+                        className="video-embed"
+                        src={project.loomUrl}
+                        allowFullScreen
+                        title={`${project.title} walkthrough`}
+                      />
+                    ) : (
+                      <div className="video-slot">
+                        <p>Video Walkthrough — Coming Soon</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="detail-section">
+                    <h4>Architecture</h4>
+                    <p>{project.architecture}</p>
+                  </div>
+                  <div className="detail-section">
+                    <h4>Key Technical Decisions</h4>
+                    <ul className="detail-list">
+                      {project.decisions.map((d, i) => (
+                        <li key={i}>{d}</li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="detail-section">
+                    <h4>Challenges & Solutions</h4>
+                    <ul className="detail-list">
+                      {project.challenges.map((c, i) => (
+                        <li key={i}>{c}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </div>
+              )}
             </div>
           ))}
         </section>
