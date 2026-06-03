@@ -101,7 +101,7 @@ export default function Portfolio() {
     {
       title: "AXIOM",
       subtitle: "Agentic RAG Codebase Explanation System",
-      description: "Built a self-explaining backend using agentic Retrieval-Augmented Generation (RAG) that indexes any public GitHub repository and streams answers with every claim cited to exact file and line numbers. Deployed on HuggingFace Spaces with persistent ChromaDB vector store. Engineered a 4-pass multi-query retrieval pipeline with HNSW vector search – expands queries into semantically distinct sub-queries, re-ranks 14 retrieved chunks by AST node type before LLM context injection. Validated against django/django (176 files, 1,400+ chunks) with AST-based Python chunking for functions, classes, and async route handlers.",
+      description: "Built a self-explaining backend using agentic Retrieval-Augmented Generation (RAG) that indexes any public GitHub repository and streams answers with every claim cited to exact file and line numbers. Deployed on HuggingFace Spaces with persistent ChromaDB vector store. Engineered a 4-pass multi-query retrieval pipeline with HNSW vector search - expands queries into semantically distinct sub-queries, re-ranks 14 retrieved chunks by AST node type before LLM context injection. Validated against django/django (176 files, 1,400+ chunks) with AST-based Python chunking for functions, classes, and async route handlers.",
       tech: ["FastAPI", "RAG", "ChromaDB", "HNSW Search", "AST Parsing", "LangChain", "Groq API"],
       github: null,
       demo: "https://huggingface.co/spaces/ishaan1911/AXIOM",
@@ -232,22 +232,7 @@ export default function Portfolio() {
       ]
     }
   ];
-    {
-      title: "AXIOM",
-      subtitle: "Agentic RAG Codebase Explanation System",
-      description: "Built a self-explaining backend using agentic Retrieval-Augmented Generation (RAG) that indexes any public GitHub repository and streams answers with every claim cited to exact file and line numbers. Deployed on HuggingFace Spaces with persistent ChromaDB vector store. Engineered a 4-pass multi-query retrieval pipeline with HNSW vector search – expands queries into semantically distinct sub-queries, re-ranks 14 retrieved chunks by AST node type before LLM context injection. Validated against django/django (176 files, 1,400+ chunks) with AST-based Python chunking for functions, classes, and async route handlers.",
-      tech: ["FastAPI", "RAG", "ChromaDB", "HNSW Search", "AST Parsing", "LangChain", "Groq API"],
-      github: null,
-      demo: "https://huggingface.co/spaces/ishaan1911/AXIOM"
-    },
-    {
-      title: "CodeCraft",
-      subtitle: "AI-Powered Skills Verification Platform",
-      description: "Full-stack engineering skills verification platform with AI-powered automatic grading system using Groq LLM API. Features three challenge categories: Code Comprehension, Debugging, and AI Code Review with real-time feedback and detailed grading breakdowns. Built with microservices architecture featuring React frontend deployed on Vercel and FastAPI backend on Railway, with PostgreSQL database on Supabase for persistent storage. Implements secure JWT-based authentication, Redis caching for performance optimization, and RESTful API design patterns.",
-      tech: ["React", "FastAPI", "PostgreSQL", "Groq AI", "Redis", "JWT", "Microservices"],
-      github: "https://github.com/ishaan1911/codecraft",
-      demo: "https://codecraft-frontend-psi.vercel.app/"
-    },
+
   const coursework = [
     "AI",
     "Machine Learning",
