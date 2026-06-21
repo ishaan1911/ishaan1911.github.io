@@ -50,14 +50,13 @@ export default function Portfolio() {
   const experiences = [
     {
       company: "CreArt Solutions",
-      role: "Software Engineering Intern",
-      period: "Jun 2023 - Aug 2023",
-      location: "Remote",
+      role: "Technical Training Intern",
+      period: "Jul 2021 - Oct 2021",
+      location: "Ahmedabad, India",
       achievements: [
-        "Designed and deployed scalable full-stack applications using React, Node.js, and MongoDB",
-        "Optimized database queries and caching strategies, reducing API response times by 45%",
-        "Collaborated with development teams using Git and Agile to deliver multiple client projects",
-        "Built responsive interfaces with modern design systems, improving user engagement"
+        "Delivered real-world applications in C and C++ implementing core software engineering concepts",
+        "Completed intensive training in data structures, algorithms, and software design patterns",
+        "Built and debugged systems-level programs reinforcing low-level programming fundamentals"
       ]
     },
     {
@@ -66,10 +65,8 @@ export default function Portfolio() {
       period: "May 2023 - Jul 2023",
       location: "Ahmedabad, India",
       achievements: [
-        "Worked with AWS (EC2, S3, Lambda) to build scalable cloud solutions and infrastructure",
-        "Collaborated on migrating legacy applications to cloud infrastructure, reducing operational costs",
-        "Developed RESTful APIs handling 10,000+ daily requests with sub-200ms latency",
-        "Implemented secure authentication systems using JWT and OAuth 2.0 for 5,000+ accounts"
+        "Contributed to AWS-based (EC2, S3, Lambda) cloud solutions, collaborating on migrating legacy applications to cloud infrastructure",
+        "Reduced operational costs and improved system reliability through cloud migration and infrastructure optimization"
       ]
     }
   ];
@@ -104,7 +101,7 @@ export default function Portfolio() {
       description: "Built a self-explaining backend using agentic Retrieval-Augmented Generation (RAG) that indexes any public GitHub repository and streams answers with every claim cited to exact file and line numbers. Deployed on HuggingFace Spaces with persistent ChromaDB vector store. Engineered a 4-pass multi-query retrieval pipeline with HNSW vector search - expands queries into semantically distinct sub-queries, re-ranks 14 retrieved chunks by AST node type before LLM context injection. Validated against django/django (176 files, 1,400+ chunks) with AST-based Python chunking for functions, classes, and async route handlers.",
       tech: ["FastAPI", "RAG", "ChromaDB", "HNSW Search", "AST Parsing", "LangChain", "Groq API"],
       github: null,
-      demo: "https://huggingface.co/spaces/ishaan1911/AXIOM",
+      demo: "https://ishaan19-axiom.hf.space",
       loomUrl: null,
       architecture: "FastAPI backend → GitHub repo cloner → AST parser (Python AST + regex for JS/TS/YAML/JSON/Markdown) → ChromaDB with HNSW indexing → 4-pass multi-query retrieval → Groq LLM (streaming) → cited response. Deployed on HuggingFace Spaces with persistent ChromaDB volume.",
       decisions: [
@@ -242,13 +239,13 @@ export default function Portfolio() {
   ];
 
   const skills = {
-    "Languages": ["Python", "Java", "JavaScript", "TypeScript"],
-    "Frontend": ["React", "Next.js", "Tailwind CSS", "HTML/CSS"],
-    "Backend": ["Node.js", "Express", "Flask", "FastAPI", "Django"],
-    "Cloud & DevOps": ["AWS (Lambda, S3, DynamoDB, API Gateway)", "Docker", "Git", "CI/CD", "Vercel", "Railway"],
-    "AI/ML": ["TensorFlow", "PyTorch", "NLP", "LangChain", "OpenAI API", "Vector Embeddings", "DALL-E", "Whisper", "Groq AI"],
-    "Databases": ["MongoDB", "PostgreSQL", "MySQL", "DynamoDB", "Supabase", "Redis"],
-    "Tools & APIs": ["REST APIs", "Streamlit", "Gmail API", "Eleven Labs API"]
+    "Languages": ["Python", "TypeScript", "JavaScript", "SQL", "HTML/CSS"],
+    "Frontend": ["React", "Next.js 14"],
+    "Backend": ["FastAPI", "Node.js", "REST APIs", "JWT Authentication", "bcrypt", "System Design"],
+    "Databases": ["PostgreSQL", "MySQL", "pgvector", "ChromaDB", "Schema Design"],
+    "Cloud & DevOps": ["AWS (EC2, RDS, S3, Lambda, API Gateway)", "Docker", "Git", "CI/CD", "Vercel", "Hugging Face Spaces"],
+    "AI & ML": ["LLM APIs (GPT-4o, Groq)", "LangChain", "Hugging Face Transformers", "sentence-transformers", "RAG Pipelines"],
+    "Distributed Systems": ["Celery", "Redis", "Async Processing", "Event-Driven Architecture"]
   };
 
   return (
@@ -1005,8 +1002,8 @@ export default function Portfolio() {
           </div>
           <div className="education">
             <h3>Indus University</h3>
-            <p className="degree">Bachelor of Science in Computer Science</p>
-            <p className="year">Graduated 2024</p>
+            <p className="degree">Bachelor of Science in Computer Science | GPA: 3.60/4.00</p>
+            <p className="year">Graduated May 2024</p>
           </div>
         </section>
 
